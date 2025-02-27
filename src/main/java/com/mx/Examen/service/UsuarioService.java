@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,15 @@ public class UsuarioService {
 	
 	@Transactional(readOnly = true)
 	public Page<Usuario> getAllUsuariosPage(int page, int size){
-		Pageable pageable = PageRequest.of(page, size);
-		return usuarioRepository.findAll(pageable);
+		/*Pageable pageable = PageRequest.of(page, size);
+		return usuarioRepository.findAll(pageable);*/
+		
+		int start = page * size + 1;
+	    int end = (page + 1) * size;
+	    List<Usuario> usuarios = usuarioRepository.findUsuariosWithPagination(start, end);
+
+	    Pageable pageable = PageRequest.of(page, size);
+	    return new PageImpl<>(usuarios, pageable, usuarios.size());
 	}
 	
 	@Transactional(readOnly = true)
