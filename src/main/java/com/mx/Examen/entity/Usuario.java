@@ -1,17 +1,13 @@
 package com.mx.Examen.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -43,9 +39,9 @@ public class Usuario {
 	@Column(name = "A_MATERNO")
 	private String aMaterno;
 	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	@JsonIgnore
-	List<Rol> lista = new ArrayList<Rol>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ID_TROLE")
+	Rol rol;
 	
 
 }
